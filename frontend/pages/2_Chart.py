@@ -5,7 +5,7 @@ To be implemented in Week 3
 
 import streamlit as st
 
-st.set_page_config(page_title="Chart OCR - FinanceAI", page_icon="📈")
+st.set_page_config(page_title="Chart OCR - FinanceAI", page_icon="C")
 
 st.title("Financial Chart Extraction")
 st.info("This feature will be implemented in Week 3")

@@ -1,5 +1,5 @@
 # FinanceAI Platform - CI Workflow
-# Last Updated: 2024-12-14
+# Last Updated: 2024-12-14 23:15
 
 name: CI
 
@@ -54,15 +54,17 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov pytest-asyncio httpx
 
-      - name: Run tests
-        run: pytest tests/ -v --cov=backend --cov-report=term-missing
+      - name: Run tests with coverage
+        run: pytest tests/ -v --cov=backend --cov-report=term-missing --cov-report=html
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: coverage-report
           path: htmlcov/
           retention-days: 7
+          if-no-files-found: ignore
 
   docker-build:
     name: Docker Build Check

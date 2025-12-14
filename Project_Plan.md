@@ -1,13 +1,13 @@
 # 金融智能分析平台 - 项目总控计划
 
 > **文档创建日期**: 2024-12-14 19:00
-> **当前版本**: v2.3
-> **最后更新**: 2024-12-14 20:55
+> **当前版本**: v2.4
+> **最后更新**: 2024-12-14 23:20
 > **下次审阅**: 2024-12-21
 > **作者背景**: AI算法工程师 (码头监控CV方向) + 4年金融科技后端
 
-> **重要说明**: 本文档为目标规划, 仓库当前处于初始化阶段, 仅包含文档文件。
-> 实际代码开发将从 Week 1 开始。
+> **当前状态**: Week 1 脚手架已建立, 核心功能未启动, 目标为4周MVP。
+> 已完成: 目录结构、FastAPI后端(/health)、Streamlit前端、CI/CD、Docker配置、pytest测试通过。
 
 ---
 
@@ -21,10 +21,36 @@
 | v2.1 | 2024-12-14 19:55 | 采纳复审意见, 里程碑压缩至4周 | Claude Code |
 | v2.2 | 2024-12-14 20:25 | 精简Week1, 指标分级, 数据前置 | Claude Code |
 | v2.3 | 2024-12-14 20:55 | 新增必交付/可延后分级, 硬验收/软验收 | Claude Code |
+| v2.4 | 2024-12-14 23:20 | 回应22:55复审, 修复兼容性/文档问题 | Claude Code |
 
 ---
 
-## [v2.3 更新] 本次调整摘要
+## [v2.4 更新] 本次调整摘要
+
+> 基于 2024-12-14 22:55 复审 - 现状核对、可运行性与风格
+
+### 复审问题采纳情况
+
+| 问题 | 采纳 | 处理措施 |
+|------|------|----------|
+| Python版本兼容风险 (UTC导入) | 完全采纳 | 改用 `datetime.now(timezone.utc)` (3.10兼容) |
+| 文档链路缺失 | 部分采纳 | 历史引用保留在PLAN_REVIEW.md, Project_Plan已整合 |
+| 进度声明不实 | 完全采纳 | 更新本文档"当前状态"反映真实进度 |
+| CI覆盖率上传问题 | 完全采纳 | 添加 `--cov-report=html` 和 `if-no-files-found: ignore` |
+| 前端emoji风格 | 完全采纳 | 移除所有emoji, 改用字母图标 |
+| 数据缺口 | 接受现状 | 数据收集列为Week2前置任务 |
+
+### 本次修复清单
+
+- [x] `backend/app/main.py`: `from datetime import UTC` -> `from datetime import timezone`
+- [x] `.github/workflows/ci.yml`: 添加html覆盖率报告生成
+- [x] `frontend/*.py`: 移除emoji, 使用字母page_icon
+- [x] 删除多余虚拟环境 `.venv1`
+- [x] 更新本文档状态声明
+
+---
+
+## [v2.3 更新] 历史调整摘要
 
 > 基于 2024-12-14 20:43 复审 - 可实施性最终确认
 
@@ -364,24 +390,24 @@ testpaths = ["tests"]
 ### 立即执行清单 (2024-12-14)
 
 **工程基础** (硬验收):
-- [ ] 创建目录结构 (backend/frontend/tests/data/scripts)
-- [ ] 创建 .gitignore
-- [ ] 创建 LICENSE (MIT)
-- [ ] 创建 README.md (含非MVP说明)
-- [ ] 创建 pyproject.toml
-- [ ] 创建 backend/app/main.py (/health接口)
+- [x] 创建目录结构 (backend/frontend/tests/data/scripts)
+- [x] 创建 .gitignore
+- [x] 创建 LICENSE (MIT)
+- [x] 创建 README.md (含非MVP说明)
+- [x] 创建 pyproject.toml
+- [x] 创建 backend/app/main.py (/health接口)
 
 **数据准备** (硬验收):
-- [ ] 创建 data/knowledge_base/README.md
+- [x] 创建 data/knowledge_base/README.md
 - [ ] 收集 5份监管PDF (ESMA/MiFID/SEC)
-- [ ] 创建 data/sample_charts/README.md
+- [x] 创建 data/sample_charts/README.md
 - [ ] 收集 10张金融图表
-- [ ] 创建 data/synthetic_trades/README.md
+- [x] 创建 data/synthetic_trades/README.md
 - [ ] 生成 1份模拟交易CSV
 
 **软验收** (尽力完成):
-- [ ] docker-compose.yml 可启动
-- [ ] CI流水线配置
+- [x] docker-compose.yml 可启动
+- [x] CI流水线配置
 - [ ] 数据扩充到目标数量
 
 ### Week 1 验收标准 (2024-12-21)

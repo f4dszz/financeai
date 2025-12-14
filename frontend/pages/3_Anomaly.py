@@ -5,7 +5,7 @@ To be implemented in Week 4
 
 import streamlit as st
 
-st.set_page_config(page_title="Anomaly Detection - FinanceAI", page_icon="🔍")
+st.set_page_config(page_title="Anomaly Detection - FinanceAI", page_icon="A")
 
 st.title("Trading Anomaly Detection")
 st.info("This feature will be implemented in Week 4")

@@ -10,7 +10,7 @@ import streamlit as st
 # === Page Configuration ===
 st.set_page_config(
     page_title="FinanceAI Platform",
-    page_icon="📊",
+    page_icon="F",
     layout="wide",
     initial_sidebar_state="expanded",
 )

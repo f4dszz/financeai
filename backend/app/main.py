@@ -1,10 +1,10 @@
 """
 FinanceAI Platform - FastAPI Backend
-Last Updated: 2024-12-14 21:30
+Last Updated: 2024-12-14 23:15
 """
 
 from contextlib import asynccontextmanager
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import FastAPI
@@ -78,7 +78,7 @@ async def health_check() -> HealthResponse:
     """
     return HealthResponse(
         status="ok",
-        timestamp=datetime.now(UTC).isoformat(),
+        timestamp=datetime.now(timezone.utc).isoformat(),
         version="0.1.0",
     )
 
