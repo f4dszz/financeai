@@ -231,20 +231,74 @@ uvicorn backend.app.main:app --reload
 ## 8. Git配置指南 / Git Configuration Guide
 
 > **配置时间**: 2024-12-14 22:30
+> **更新时间**: 2024-12-14 22:45
 > **配置位置**: 项目根目录
 
 ### 8.1 当前仓库配置
 
 ```bash
-# 远程仓库地址
+# 远程仓库地址 (SSH)
 origin  git@github.com:f4dszz/financeai.git (fetch)
 origin  git@github.com:f4dszz/financeai.git (push)
+
+# 用户信息
+user.name: f4dszz
+user.email: sding23@fordham.edu
 
 # 默认分支
 master
 ```
 
-### 8.2 查看当前配置
+### 8.2 SSH密钥配置 (首次使用必读)
+
+使用SSH方式推送代码前，需要配置SSH密钥：
+
+**Step 1: 检查现有密钥**
+```bash
+ls -la ~/.ssh/
+# 查找 id_rsa.pub 或 id_ed25519.pub
+# 如果存在，跳到 Step 4
+```
+
+**Step 2: 生成新密钥 (如果不存在)**
+```bash
+ssh-keygen -t ed25519 -C "sding23@fordham.edu"
+# 按回车接受默认路径: ~/.ssh/id_ed25519
+# 可设置密码保护或直接回车留空
+```
+
+**Step 3: 启动SSH代理并添加密钥**
+```bash
+# Git Bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# PowerShell (需管理员权限)
+Start-Service ssh-agent
+ssh-add $env:USERPROFILE\.ssh\id_ed25519
+```
+
+**Step 4: 复制公钥**
+```bash
+cat ~/.ssh/id_ed25519.pub
+# 复制输出的全部内容 (以 ssh-ed25519 开头)
+```
+
+**Step 5: 添加到GitHub**
+1. 访问: https://github.com/settings/keys
+2. 点击 "New SSH key"
+3. Title: 自定义名称 (如 `Work-Laptop`)
+4. Key type: Authentication Key
+5. Key: 粘贴公钥内容
+6. 点击 "Add SSH key"
+
+**Step 6: 验证连接**
+```bash
+ssh -T git@github.com
+# 成功输出: Hi f4dszz! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+### 8.3 查看当前配置
 
 ```bash
 # 查看远程仓库

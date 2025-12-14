@@ -112,3 +112,29 @@
   2) 数据落地：收集/生成最小数据集（三类：监管 PDF、图表样例、合成交易 CSV），建立基准测试脚本，加入仓库 data/ 目录。
   3) 进度分级：标注“必交付（RAG+摄取+审计+最小 CI）/可延后（YOLO 微调、Redis/Kafka、性能指标）”，降低延期风险。
   4) 验收分期：Week2 以可对话 RAG + 审计/免责声明为硬验收；Week3 以图表“结构化成功率”替代高精度；Week4 以可视化+样例正确标注为主，性能指标延后。
+
+## 2025-12-14 22:55 复审更新（现状核对、可运行性与风格）
+
+- 状态与进度
+  - 代码现状：已落地基础脚手架（FastAPI `/health`、`/disclaimer`、`/api/v1/status`；Streamlit 首页与 3 个占位页；pytest 健康检查 2/2 通过），业务功能未启动（RAG/Chart/OCR/异常检测均为占位）。
+  - 数据现状：`data/knowledge_base`、`data/sample_charts`、`data/synthetic_trades` 仅有 README，无样本；scripts/ 为空。
+  - 文档现状：Project_Plan 标 v2.3 且声明“仅文档、代码未启”（Project_Plan.md:4, Project_Plan.md:9），与仓库已有脚手架不一致；仍引用缺失文件 `REVIEW_RESPONSE_V2.md`（Project_Plan.md:347, Project_Plan.md:377）。
+  - 运行验证：本地 .venv (Python 3.14) 下 pytest 通过；Dockerfile/CI 使用 Python 3.10。
+- 优点
+  - 基础可运行：后端可启动并提供健康检查/免责声明，占位状态接口；前端容器/CI/Docker Compose 已配置，README 明示占位组件不在 MVP。
+  - 目录与模块占位齐全，为后续按周填充（agents/api/services/utils/data/tests）。
+- 风险与问题（按优先级）
+  1) 版本/兼容性高风险：backend 使用 `from datetime import UTC`（Python 3.11+），而 Dockerfile/CI 设为 3.10，运行与 CI 将直接报错；需改为 `from datetime import datetime, timezone` 并使用 `datetime.now(timezone.utc)` 或提升基线版本。
+  2) 文档链路缺失：`REVIEW_RESPONSE_V2.md` 不存在；Project_Plan 头部描述与实际进度不符，易误导审阅。
+  3) 进度声明不实：Project_Plan/PROJECT_STRUCTURE 声称“仅文档/Week1 完成/使用 Python 3.14”，但 CI/Docker 3.10 且功能未启；需对齐计划与现状。
+  4) CI 小问题：ci.yml 上传 htmlcov，但当前 pytest 命令未生成覆盖率目录，流水线会在上传步骤失败。
+  5) 数据缺口：无监管 PDF/图表样例/合成交易数据，Week2-4 验收缺支撑。
+  6) 风格与本地化：后端 `disclaimer_zh`、前端页标题 emoji 存在乱码/过于活泼，不利严肃场景。
+- 可实施性判断
+  - 在修复 Python 版本兼容与文档一致性前，不宜宣称“已完成 Week1”；修复后即可按 4 周计划推进，当前代码可作为 Week1 脚手架起点。
+- 建议（保持严肃/可执行）
+  1) 立即修复 UTC 兼容：改用 `datetime, timezone`（Python 3.10 兼容），同步更新 Docker/CI/pyproject 的 Python 基线说明。
+  2) 文档对齐：补或移除 `REVIEW_RESPONSE_V2.md` 引用；在 Project_Plan/README 说明“Week1 脚手架已建，核心功能未启；目标为 4 周 MVP”。
+  3) CI 兜底：若保留覆盖率上传，添加 `pytest --cov=backend --cov-report=term-missing --cov-report=html`；或临时移除 htmlcov 上传步骤。
+  4) 数据与测试：本周落地最小数据集（监管 PDF 10-20，图表样例 20-30，合成交易 CSV 1-2），并编写基准脚本以支撑 Week2/3/4 验收。
+  5) 风格收敛：替换或移除前端/后端的 emoji/乱码，改用简洁标题与纯文本免责声明，保证跨平台可读与严肃基调。
