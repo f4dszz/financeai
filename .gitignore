@@ -1,0 +1,94 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+.claude/
+/main.py
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite3
+
+# ChromaDB
+chroma_data/
+.chroma/
+
+# Cache
+.cache/
+*.cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+tmp/
+temp/
+
+# Model weights (large files)
+*.pt
+*.pth
+*.onnx
+*.bin
+!.gitkeep
+
+# Data files (optional - uncomment if needed)
+# data/knowledge_base/*.pdf
+# data/sample_charts/*.png
+# data/sample_charts/*.jpg
+# data/synthetic_trades/*.csv

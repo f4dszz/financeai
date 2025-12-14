@@ -1,0 +1,65 @@
+# FinanceAI Platform - Docker Compose
+# Last Updated: 2024-12-14
+
+version: '3.8'
+
+services:
+  # === Backend Service ===
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: financeai-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ENV=development
+      # === API Keys (Configure in .env) ===
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # === Frontend Service ===
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: financeai-frontend
+    ports:
+      - "8501:8501"
+    environment:
+      - BACKEND_URL=http://backend:8000
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    command: streamlit run Home.py --server.port 8501 --server.address 0.0.0.0
+
+  # === Placeholder Services (NOT IMPLEMENTED - Phase 2) ===
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: financeai-redis
+  #   ports:
+  #     - "6379:6379"
+  #
+  # kafka:
+  #   image: confluentinc/cp-kafka:7.5.0
+  #   container_name: financeai-kafka
+  #   ports:
+  #     - "9092:9092"
+
+volumes:
+  chroma_data:
+
+networks:
+  default:
+    name: financeai-network
